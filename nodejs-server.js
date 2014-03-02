@@ -78,6 +78,21 @@ var httpServer = http.createServer( function(request, response) {
         {
           pathname = "index.html";
         }
+        else 
+        {
+            if (pathname === "/download")
+            {
+                code = aURL.query.code;
+                response.writeHead(200, {'Content-Type': 'application/json',
+                    "Cache-Control": "public",
+                    "Content-Description": "File Transfer",
+                    "Content-Disposition": "attachment",
+                    "Content-Transfer-Encoding": "binary"});
+                response.write(code + '\n\n');
+                response.end();
+                return;
+            }
+        }
         var filename = path.join(process.cwd(), 'waterbear', pathname);
     
         path.exists(filename, function(exists) {
