@@ -83,13 +83,12 @@ var httpServer = http.createServer( function(request, response) {
             if (pathname === "/download")
             {
                 code = aURL.query.code;
-                response.writeHead(200, {'Content-Type': 'application/json',
-                    "Cache-Control": "public",
-                    "Content-Description": "File Transfer",
-                    "Content-Disposition": "attachment",
-                    "Content-Transfer-Encoding": "binary"});
-                response.write(code + '\n\n');
-                response.end();
+                response.writeHead(200, {'Content-Type': 'application/octet-stream',
+                    "Content-Disposition": "attachment; filename=waterbear.json"});
+                fs.writeFile("test.js", aURL.query.code);
+                var filestream = fs.createReadStream('test.js');
+                filestream.pipe(response);
+                //response.end();
                 return;
             }
         }
